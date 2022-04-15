@@ -12,6 +12,8 @@ jobs:
     environment: npm
     steps:
       - uses: actions/checkout@master
+        with:
+          ref: master
       - name: Install and Build
         run: |
           npm install
