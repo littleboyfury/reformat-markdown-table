@@ -1,6 +1,6 @@
 {
   "name": "@skyfury/reformat-markdown-cn",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Reformat and align markdown tables with Chinese",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
@@ -55,8 +55,7 @@
   ],
   "files": [
     "bin/reformat-markdown-table-cn",
-    "dist/**/*.js",
-    "dist/**/*.d.ts"
+    "dist"
   ],
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
