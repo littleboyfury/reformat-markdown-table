@@ -2,8 +2,7 @@ name: Public Npm
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ master ]
 
 jobs:
   publish:
@@ -12,8 +11,6 @@ jobs:
     environment: npm
     steps:
       - uses: actions/checkout@master
-        with:
-          ref: master
       - name: Install and Build
         run: |
           npm install
