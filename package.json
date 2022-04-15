@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Reformat and align markdown tables with Chinese",
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "preferGlobal": true,
   "bin": {
     "reformat-markdown-cn": "bin/reformat-markdown-table-cn"
