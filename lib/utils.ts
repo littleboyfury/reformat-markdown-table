@@ -1,60 +1,66 @@
 // 汉字数量对应空格数量
-let format = {
+let format: { [key in string]: number } = {
   '0': 0,
   '1': 2,
   '2': 3,
   '3': 5,
-} as any
-let formatKeys = Object.keys(format)
-
-export function splitStringToTable(str: string) {
-  return trim(String(str)).split('\n').map(function (row) {
-    row = row.replace(/^\s*\|/, '')
-    row = row.replace(/\|\s*$/, '')
-    return row.split('|').map(trim)
-  })
 }
 
-export function getMaxLengthPerColumn(table: string[][]) {
+let formatKeys = Object.keys(format)
+
+type LRC = 'l' | 'r' | 'c'
+
+export function splitStringToTable(str: string): string[][] {
+  return trim(String(str))
+    .split('\n')
+    .map(function (row) {
+      row = row.replace(/^\s*\|/, '')
+      row = row.replace(/\|\s*$/, '')
+      return row.split('|').map(trim)
+    })
+}
+
+export function getMaxLengthPerColumn(table: string[][]): number[] {
   return table[0].map(function (str, column_index) {
     return getMaxLengthOfColumn(getColumn(table, column_index))
   })
 }
 
-export function getMaxLengthOfColumn(array: string[]) {
+export function getMaxLengthOfColumn(array: string[]): number {
   return array.reduce(function (max, item) {
     return Math.max(max, getItemLength(item))
   }, 0)
 }
 
-export function getItemLength(str: string) {
-  const acc = str.split('').reduce(function (acc, char) {
-    if (char.charCodeAt(0) >= 0 && char.charCodeAt(0) <= 128) {
-      acc.len++
-    } else {
-      acc.chineseLen++
-    }
+export function getItemLength(str: string): number {
+  const acc = str.split('')
+    .reduce(function (acc, char) {
+      if (char.charCodeAt(0) >= 0 && char.charCodeAt(0) <= 128) {
+        acc.len++
+      } else {
+        acc.chineseLen++
+      }
 
-    return acc
-  }, {
-    len: 0,
-    chineseLen: 0,
-  })
+      return acc
+    }, {
+      len: 0,
+      chineseLen: 0,
+    })
 
   // 计算中文需要预留的长度，以最大的数量分割，计算整倍长度，然后加上预留剩余预留长度
   acc.len += Math.floor(acc.chineseLen / (formatKeys.length - 1)) *
-  format[(formatKeys as any)[formatKeys.length - 1] as any] as number +
-  format[acc.chineseLen % (formatKeys.length - 1) + ''] as number
+  format[formatKeys[formatKeys.length - 1]] as number +
+  format[acc.chineseLen % (formatKeys.length - 1) + '']
   return acc.len
 }
 
-export function getMaxLength(array: string[][]) {
+export function getMaxLength(array: string[][]): number {
   return array.reduce(function (max, item) {
     return Math.max(max, item.length)
   }, 0)
 }
 
-export function padHeaderSeparatorString(str: string, len: number) {
+export function padHeaderSeparatorString(str: string, len: number): string {
   switch (getAlignment(str)) {
     case 'l':
       return repeatStr('-', Math.max(3, len))
@@ -65,14 +71,14 @@ export function padHeaderSeparatorString(str: string, len: number) {
   }
 }
 
-export function getAlignment(str: string) {
+export function getAlignment(str: string): LRC {
   if (str[str.length - 1] === ':') {
     return str[0] === ':' ? 'c' : 'r'
   }
   return 'l'
 }
 
-export function fillInMissingColumns(table: string[][]) {
+export function fillInMissingColumns(table: string[][]): void {
   const max = getMaxLength(table)
   table.forEach(function (row: string[], i: number) {
     while (row.length < max) {
@@ -81,17 +87,17 @@ export function fillInMissingColumns(table: string[][]) {
   })
 }
 
-export function getColumn(table: string[][], column_index: number) {
+export function getColumn(table: string[][], column_index: number): string[] {
   return table.map(function (row: string[]) {
     return row[column_index]
   })
 }
 
-export function trim(str: string) {
+export function trim(str: string): string {
   return str.trim()
 }
 
-export function padStringWithAlignment(str: string, len: number, alignment: string) {
+export function padStringWithAlignment(str: string, len: number, alignment: LRC): string {
   switch (alignment) {
     case 'l':
       return padRight(str, len)

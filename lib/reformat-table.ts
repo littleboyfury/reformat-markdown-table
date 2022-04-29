@@ -1,6 +1,6 @@
 import * as utils from './utils'
 
-function reformat(str: string) {
+function reformat(str: string): string[] {
   const table = utils.splitStringToTable(str)
 
   table[1] = table[1].map(function (cell) {
@@ -23,7 +23,7 @@ function reformat(str: string) {
   })
 }
 
-export function reformatReadmeDoc(str: string, formatString: string) {
+export function reformatReadmeDoc(str: string, formatString: string): string {
   utils.setFormatString(formatString)
   let i = 0, j = 0, items = str.split('\n')
   let codeBlock = false
