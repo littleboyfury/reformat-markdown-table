@@ -73,20 +73,56 @@ reformat-markdown-cn ./markdown/**/*.md -R '{"0": 0, "1": 2}' -C
 
 ## 代码使用
 
-```javascript
-const { reformat } = require('@skyfury/reformat-markdown-cn')
-const content = `
-## 标题
+## javascript 使用
 
-| 姓名 | 电话 | 邮箱 |
-| --- | :---: | ---: |
-| 王顶 | 13582027613 | 408542507@qq.com |
-| 郭玉朝 | 13812347652 | baldy@163.com |
-|  | abc | def
+```javascript
+const {reformatReadmeDoc} = require('@skyfury/reformat-markdown-cn')
+
+const str = `
+|测试|你好|world|世界|
+|-----|-----|-----|-------|
+|1|1|2|2|
+|22|33|44|55|
 `
 const result = reformat(content)
 
-console.log(result)
+const str1 = reformatReadmeDoc(str, JSON.stringify(format))
+
+console.log(str1)
+
+// | 测试 | 你好 | world | 世界 |
+// |------|------|-------|------|
+// | 1    | 1    | 2     | 2    |
+// | 22   | 33   | 44    | 55   |
 ```
 
+## typescript 使用
+
+```TypeScript
+import {reformatReadmeDoc}  from '@skyfury/reformat-markdown-cn'
+
+const str = `
+|测试|你好|world|世界|
+|-----|-----|-----|-------|
+|1|1|2|2|
+|22|33|44|55|
+`
+
+console.log(str)
+const format = {
+  0: 0,
+  1: 2,
+  // 2: 3,
+  // 3: 5,
+}
+
+const str1 = reformatReadmeDoc(str, JSON.stringify(format))
+
+console.log(str1)
+
+// | 测试 | 你好 | world | 世界 |
+// |------|------|-------|------|
+// | 1    | 1    | 2     | 2    |
+// | 22   | 33   | 44    | 55   |
+```
 
